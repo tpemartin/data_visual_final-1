@@ -1,0 +1,100 @@
+---
+drake_cache: ".server"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r makecondition}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(googledrive)
+library(readr)
+library(ggmap)
+library(osmdata)
+library(econDV)
+library(sf)
+library(tibble)
+library(readr)
+library(showtextdb)
+library(showtext)
+library(stringr)
+library(svglite)
+library(sysfonts)
+library(plotly)
+
+#osm_geom_rename()
+#source("data_visulaization_pk.R", encoding = "UTF-8")
+```
+
+## 疫情資料視覺化 - 新北地區
+
+## Input
+
+## mapdata_preparation
+
+```{r ntpBBox}
+ntpBBox ={
+  osmdata::getbb("New Taipei") -> ntpBBox
+  ntpBBox
+}
+```
+
+```{r dsf_ntp}
+dsf_ntp ={
+  dsf_ntp <- opq(ntpBBox) %>% 
+     add_osm_feature(key="admin_level", value="5") %>%
+     osmdata::osmdata_sf() 
+  dsf_ntp
+}
+```
+
+```{r dsf_ntp_trimed}
+dsf_ntp_trimed <-{
+  
+  dsf_ntp$osm_multipolygons %>%
+   filter(.,str_detect(`name.en`,"Bali|Banqiao|Gongliao|Jinshan|Linkou|Luzhou|Pinglin|Pingxi|Ruifang|Sanchong|Sanxia|Sanzhi|Shenkeng|Shiding|Shimen|Shuangxi|Shulin|Taishan|Tamsui|Tucheng|Wanli|Wugu|Wulai|Xindian|Xinzhuang|Xizhi|Yingge|Yonghe|Zhonghe")) -> dsf_ntp_trimed
+  dsf_ntp_trimed
+}
+```
+
+```{r raster_ntp}
+raster_ntp ={
+  get_map(ntpBBox) -> raster_ntp 
+  raster_ntp
+}
+```
+
+```{r ggmap_ntp}
+ggmap_ntp={
+  raster_ntp %>% ggmap() -> ggmap_ntp
+  ggmap_ntp
+}
+```
+
+```{r makecondition_input}
+input_bins = 30
+```
+
+## Output rendering
+
+  * must have `render_outputId` and `output_outputId` objects.
+  
+  * `render_outputId` has render function as its value, which will be used to generate proper server.R
+
+```{r render_distPlot}
+render_mapPlot <- shiny::renderPlot
+```
+
+```{r output_mapPlot}
+output_mapPlot = {
+  ggmap_ntp +
+  geom_sf(
+    data = dsf_ntp_trimed %>% osm_geom_rename(), 
+    inherit.aes = FALSE,
+    alpha=0.8, fill="aliceblue"
+  )+ theme_classic()
+}
+```
