@@ -18,7 +18,7 @@ grDevices::colorRamp(case) -> case_colorGenerator
 # server --------
 
 server <- function(input, output) {
-  output$distPlot <- shiny::renderPlot({
+  output$distPlot <- plotly::renderPlotly({
     if (input$Region == "none") {
       plotly::plot_ly() %>% add_sf(
         data = df_ntp$osm_multipolygons,

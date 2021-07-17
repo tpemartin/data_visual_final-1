@@ -47,7 +47,7 @@ dependencies <- {
 ### Output
 
 ```{r output_distPlot}
-output_distPlot <- plotOutput("distPlot")
+output_distPlot <- plotly::plotlyOutput("distPlot")
 ```
 
 ## =======================

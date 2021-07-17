@@ -64,7 +64,7 @@ input_Region <- "none"
   * `render_outputId` has render function as its value, which will be used to generate proper server.R
 
 ```{r render_distPlot}
-render_distPlot <- shiny::renderPlot
+render_distPlot <- plotly::renderPlotly
 ```
 
 ```{r output_distPlot}
