@@ -44,7 +44,7 @@ appSystem %>%
 ## Input (Region)
 
 ```{r makecondition_input}
-input_bins = 30
+
 ```
 
 ## Output rendering
