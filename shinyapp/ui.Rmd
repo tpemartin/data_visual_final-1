@@ -4,7 +4,7 @@ dependencies: "dependencies"
 output:
   html_tag:
     filename: "index.html"
-    dirpath: "`r library(econR); . %//% 'docs'`"
+    dirpath: "`r library(econR); .r %//% 'docs'`"
     object: "ui"
 ---
 
@@ -23,7 +23,7 @@ dependencies <- {
   myown_deps <- htmltools::htmlDependency(
       name="myown",
       version="1.0.0",
-      src=c(file= . %//% "assets"),
+      src=c(file= .r %//%  "assets"),
       script = "js/myscript.js",
       stylesheet="css/mystyle.css"
     )
@@ -42,7 +42,11 @@ dependencies <- {
 ### Input
 
 ```{r input_bins}
-
+sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
 ```
 
 ### Output
@@ -63,22 +67,21 @@ output_histplot <- plotly::plotlyOutput("plothist",width="100%",height="600px")
 output_cumulative <- plotly::plotlyOutput("cumulative",width="100%",height="600px")
 ```
 
-```
-
 ## =======================
 
 ### UI
 
 ```{r ui}
-ui <-{
-material_page(
+ui <- material_page(
   title = "Covid-19 Dashboard",
   nav_bar_fixed = F,
   nav_bar_color = "orange darken-3",
   font_color = "black",
   background_color="blue-grey lighten-4",
+  # Place side-nav in the beginning of the UI
   material_side_nav(
     fixed = T,
+    # Place side-nav tabs within side-nav
     material_side_nav_tabs(
       side_nav_tabs = c(
         "Location (Quarantined)" = "side_nav_tab_1",
@@ -89,6 +92,7 @@ material_page(
       icons = c("map", "insert_chart","show_chart","location_city")
     )
   ),
+  # Define side-nav tab content
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_1",
     tags$table(
@@ -101,13 +105,14 @@ material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td("新北市"),
-          tags$td("未解除隔離患者"),
-          tags$td("1935位 (僅包含地址填寫正確之數量)")
+          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
+          tags$td(tags$div(class="chip",tags$div(class="chip","未解除隔離患者"))),
+          tags$td("1935位 (僅包含地址填寫正確之數量)"
+                  )
         )
       )
     ),
-    leaflet
+    output_leaflet
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_2",
@@ -121,14 +126,14 @@ material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td("新北市"),
-          tags$td("未解除隔離患者"),
+          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
+          tags$td(tags$div(class="chip",tags$div(class="chip","未解除隔離患者"))),
           tags$td("1935位 (僅包含地址填寫正確之數量)")
         )
       )
     ),
     tags$div(class="container",
-    choropleth)
+    output_choropleth)
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_3",
@@ -142,13 +147,13 @@ material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td("新北市"),
-          tags$td("累積發病患者"),
+          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
+          tags$td(tags$div(class="chip",tags$div(class="chip","累積發病患者"))),
           tags$td("6315位")
         )
       )
     ),
-    histplot
+    output_histplot
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_4",
@@ -162,17 +167,15 @@ material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td("新北市"),
-          tags$td("累積發病患者"),
+          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
+          tags$td(tags$div(class="chip",tags$div(class="chip","累積發病患者"))),
           tags$td("6315位")
         )
       )
     ),
-    Cumulative
+   output_cumulative
   )
 )
-} 
-
 ```
 
 ## =======================

@@ -5,6 +5,7 @@ editor_options:
 ---
 
 ```{r makecondition}
+library(shiny)
 library(osmdata)
 library(dplyr)
 library(plotly)
@@ -43,7 +44,7 @@ appSystem %>%
 ## Input (Region)
 
 ```{r makecondition_input}
-input_Region <- "none"
+input_bins = 30
 ```
 
 ## Output rendering
@@ -52,7 +53,6 @@ input_Region <- "none"
   
   * `render_outputId` has render function as its value, which will be used to generate proper server.R
 
-#1
 ```{r render_leafletplot}
 render_leafletplot <- leaflet::renderLeaflet
 ```
@@ -70,7 +70,6 @@ output_leafletplot <-{
 }
 ```
 
-#2
 ```{r render_plotlyplot}
 render_plotlyplot <- plotly::renderPlotly
 ```
@@ -105,8 +104,6 @@ output_plotlyplot <-{
           )
 }
 ```
-
-#3
 
 ```{r render_plothist}
 render_plothist <- plotly::renderPlotly
@@ -144,8 +141,6 @@ output_plothist <-{
       )
 }
 ```
-
-#4
 
 ```{r render_cumulative}
 render_cumulative  <- plotly::renderPlotly
