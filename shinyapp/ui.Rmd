@@ -15,7 +15,7 @@ library(shiny)
 library(htmltools)
 library(econR)
 library(shinymaterial)
-
+library(tibble)
 ```
 
 ```{r dependencies}
@@ -47,11 +47,22 @@ dependencies <- {
 
 ### Output
 
-```{r output_distPlot}
-output_leaflet <- leaflet::leafletOutput("leafletPlot",width="100%", height="600px")
-output_choropleth <- plotly::plotlyOutput("plotlyPlot",width="100%",height="600px")
-output_histplot <- plotly::plotlyOutput("plotHist",width="100%",height="600px")
-output_Cumulative <- plotly::plotlyOutput("Cumulative",width="100%",height="600px")
+```{r output_leaflet}
+output_leaflet <- leaflet::leafletOutput("leafletplot",width="100%", height="600px")
+```
+
+```{r output_choropleth}
+output_choropleth <- plotly::plotlyOutput("plotlyplot",width="100%",height="600px")
+```
+
+```{r output_histplot}
+output_histplot <- plotly::plotlyOutput("plothist",width="100%",height="600px")
+```
+
+```{r output_cumulative}
+output_cumulative <- plotly::plotlyOutput("cumulative",width="100%",height="600px")
+```
+
 ```
 
 ## =======================
@@ -59,16 +70,15 @@ output_Cumulative <- plotly::plotlyOutput("Cumulative",width="100%",height="600p
 ### UI
 
 ```{r ui}
-ui <- material_page(
+ui <-{
+material_page(
   title = "Covid-19 Dashboard",
   nav_bar_fixed = F,
   nav_bar_color = "orange darken-3",
   font_color = "black",
   background_color="blue-grey lighten-4",
-  # Place side-nav in the beginning of the UI
   material_side_nav(
     fixed = T,
-    # Place side-nav tabs within side-nav
     material_side_nav_tabs(
       side_nav_tabs = c(
         "Location (Quarantined)" = "side_nav_tab_1",
@@ -79,7 +89,6 @@ ui <- material_page(
       icons = c("map", "insert_chart","show_chart","location_city")
     )
   ),
-  # Define side-nav tab content
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_1",
     tags$table(
@@ -92,14 +101,13 @@ ui <- material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
-          tags$td(tags$div(class="chip",tags$div(class="chip","未解除隔離患者"))),
-          tags$td("1935位 (僅包含地址填寫正確之數量)"
-                  )
+          tags$td("新北市"),
+          tags$td("未解除隔離患者"),
+          tags$td("1935位 (僅包含地址填寫正確之數量)")
         )
       )
     ),
-    output_leaflet
+    leaflet
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_2",
@@ -113,14 +121,14 @@ ui <- material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
-          tags$td(tags$div(class="chip",tags$div(class="chip","未解除隔離患者"))),
+          tags$td("新北市"),
+          tags$td("未解除隔離患者"),
           tags$td("1935位 (僅包含地址填寫正確之數量)")
         )
       )
     ),
     tags$div(class="container",
-    output_choropleth)
+    choropleth)
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_3",
@@ -134,13 +142,13 @@ ui <- material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
-          tags$td(tags$div(class="chip",tags$div(class="chip","累積發病患者"))),
+          tags$td("新北市"),
+          tags$td("累積發病患者"),
           tags$td("6315位")
         )
       )
     ),
-    output_histplot
+    histplot
   ),
   material_side_nav_tab_content(
     side_nav_tab_id = "side_nav_tab_4",
@@ -154,18 +162,18 @@ ui <- material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
-          tags$td(tags$div(class="chip",tags$div(class="chip","累積發病患者"))),
+          tags$td("新北市"),
+          tags$td("累積發病患者"),
           tags$td("6315位")
         )
       )
     ),
-    output_Cumulative
+    Cumulative
   )
 )
+} 
+
 ```
-
-
 
 ## =======================
 

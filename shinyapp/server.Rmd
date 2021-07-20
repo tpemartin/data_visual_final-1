@@ -33,29 +33,6 @@ dailyCases %>% mutate(
 ```
 
 ```{r}
-plotly::plot_ly() %>%
-  add_sf(
-    data = df_ntp$osm_multipolygons ,
-    type= "scatter",
-    split= ~name.en,
-    showlegend=F,
-    hoverinfo="text",
-    text= ~name_and_case_number,
-    hoveron = "fills",
-    stroke=I("gray"),
-    color = ~Range, 
-    colors = grDevices::colorRamp(case),
-    hoverlabel = list(
-      bgcolor="orange",
-      font=list(
-        color="black",
-        size=20
-      )
-    )
-  )
-```
-
-```{r}
 library(dplyr)
 appSystem <- get_currentRmd()
 appSystem <- check_yaml(appSystem)
@@ -76,12 +53,12 @@ input_Region <- "none"
   * `render_outputId` has render function as its value, which will be used to generate proper server.R
 
 #1
-```{r render_leafletPlot}
-render_leafletPlot <- leaflet::renderLeaflet()
+```{r render_leafletplot}
+render_leafletplot <- leaflet::renderLeaflet
 ```
 
-```{r output_leafletPlot}
-output_leafletPlot <-{
+```{r output_leafletplot}
+output_leafletplot <-{
   leaflet(confirmed) %>% 
         setView(
           lng = 121.5454, lat= 25.05, zoom = 11
@@ -94,12 +71,12 @@ output_leafletPlot <-{
 ```
 
 #2
-```{r render_plotlyPlot}
-render_plotlyPlot <- plotly::renderPlotly()
+```{r render_plotlyplot}
+render_plotlyplot <- plotly::renderPlotly
 ```
 
-```{r output_plotlyPlot}
-output_plotlyPlot <-{
+```{r output_plotlyplot}
+output_plotlyplot <-{
    plotly::plot_ly() %>%
         plotly::add_sf(
             data = df_ntp ,
@@ -131,12 +108,12 @@ output_plotlyPlot <-{
 
 #3
 
-```{r render_plotHist}
-render_plotHist <- plotly::renderPlotly()
+```{r render_plothist}
+render_plothist <- plotly::renderPlotly
 ```
 
-```{r output_plotHist}
-output_plotHist <-{
+```{r output_plothist}
+output_plothist <-{
   plotly::plot_ly(
         data = dailyCases,
         x = ~Var1 ,
@@ -170,12 +147,12 @@ output_plotHist <-{
 
 #4
 
-```{r render_Cumulative}
-render_Cumulative  <- plotly::renderPlotly()
+```{r render_cumulative}
+render_cumulative  <- plotly::renderPlotly
 ```
 
-```{r output_Cumulative}
-output_Cumulative  <-{
+```{r output_cumulative}
+output_cumulative  <-{
  plotly::plot_ly(
         data = cumulative_city,
         x = ~region,
