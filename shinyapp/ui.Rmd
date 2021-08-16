@@ -8,7 +8,6 @@ output:
     object: "ui"
 ---
 
-
 ```{r makecondition}
 library(dplyr)
 library(shiny)
@@ -20,18 +19,9 @@ library(tibble)
 
 ```{r dependencies}
 dependencies <- {
-  myown_deps <- htmltools::htmlDependency(
-      name="myown",
-      version="1.0.0",
-      src=c(file= .r %//%  "assets"),
-      script = "js/myscript.js",
-      stylesheet="css/mystyle.css"
-    )
   econR_deps <- econR::html_dependencies()
   tagList(
-    econR_deps$jquery(),
-    econR_deps$materialise(),
-    myown_deps
+    econR_deps$jquery()#,
   )
 }
 ```

@@ -33,17 +33,9 @@ dailyCases %>% mutate(
 ) -> dailyCases
 ```
 
-```{r}
-library(dplyr)
-appSystem <- get_currentRmd()
-appSystem <- check_yaml(appSystem)
-appSystem %>%
-  check_Rproject()
-```
-
 ## Input (Region)
 
-```{r makecondition_input}
+```{r}
 
 ```
 
