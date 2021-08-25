@@ -31,8 +31,17 @@ dependencies <- {
 
 ### Input
 
-```{r input_bins}
-
+```{r input_region }
+input_region <- selectInput(
+            "region",
+            "選擇一個地區",
+            c("請選擇","淡水區","三芝區","石門區","金山區","萬里區","汐止區","深坑區"
+              ,"瑞芳區","平溪區","雙溪區","石碇區","貢寮區","新店區","中和區"
+              ,"板橋區","永和區","土城區","烏來區","樹林區","三峽區","三重區"
+              ,"蘆洲區","五股區","八里區","新莊區","林口區","泰山區","鶯歌區"
+              ,"坪林區"
+            )
+          )
 ```
 
 ### Output
@@ -91,7 +100,9 @@ ui <- material_page(
       ),
       tags$tbody(
         tags$tr(
-          tags$td(tags$div(class="chip",tags$div(class="chip","新北市"))),
+          tags$td(tags$div(class="chip",tags$div(class="chip",
+                                                 input_region
+                                                 ))),
           tags$td(tags$div(class="chip",tags$div(class="chip","未解除隔離患者"))),
           tags$td("1935位 (僅包含地址填寫正確之數量)"
                   )
